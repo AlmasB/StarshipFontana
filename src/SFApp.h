@@ -21,10 +21,13 @@ public:
     SFApp(std::shared_ptr<SFWindow>);
     ~SFApp();
     
-    void OnEvent(SFEvent &);
     void StartMainLoop();
+
+    void OnInput();
     void OnUpdate();
     void OnRender();
+
+    void HandleEvent(SFEvent &);
 
     void FireProjectile();
 private:

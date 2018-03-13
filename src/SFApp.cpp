@@ -1,5 +1,9 @@
 #include "SFApp.h"
 
+#define SECOND_MILLIS 1000
+#define FRAME_RATE 60
+#define DELAY SECOND_MILLIS / FRAME_RATE
+
 SFApp::SFApp(std::shared_ptr<SFWindow> window) : is_running(true), window(window) {
     int canvas_w = window->GetWidth();
     int canvas_h = window->GetHeight();
@@ -25,41 +29,44 @@ SFApp::SFApp(std::shared_ptr<SFWindow> window) : is_running(true), window(window
 
 SFApp::~SFApp() {}
 
-/**
- * Handle all events that come from SDL.
- * These are timer or keyboard events.
- */
-void SFApp::OnEvent(SFEvent& event) {
-    SFEVENT the_event = event.GetCode();
-    switch (the_event) {
-    case SFEVENT_QUIT:
-        is_running = false;
-        break;
-    case SFEVENT_UPDATE:
+void SFApp::StartMainLoop() {
+    while (is_running) {
+        
+        OnInput();
         OnUpdate();
         OnRender();
-        break;
-    case SFEVENT_PLAYER_LEFT:
-        player->GoWest();
-        break;
-    case SFEVENT_PLAYER_RIGHT:
-        player->GoEast();
-        break;
-    case SFEVENT_FIRE:
-        FireProjectile();
-        break;
+
+        // note this doesn't take into account time spent in the loop
+        SDL_Delay(DELAY);
     }
 }
 
-void SFApp::StartMainLoop() {
+void SFApp::OnInput() {
     SDL_Event event;
-    while (SDL_WaitEvent(&event) && is_running) {
-        
-        // wrap an SDL_Event with our SFEvent
-        SFEvent sfevent((const SDL_Event)event);
-        
-        // handle our SFEvent
-        OnEvent(sfevent);
+
+    while (SDL_PollEvent(&event)) {
+        // wrap an SDL_Event with our SFEvent and handle it
+        HandleEvent(SFEvent(event));
+    }
+}
+
+/**
+ * Handle all events (mainly keyboard).
+ */
+void SFApp::HandleEvent(SFEvent& event) {
+    switch (event.GetCode()) {
+        case SFEVENT_QUIT:
+            is_running = false;
+            break;
+        case SFEVENT_PLAYER_LEFT:
+            player->GoWest();
+            break;
+        case SFEVENT_PLAYER_RIGHT:
+            player->GoEast();
+            break;
+        case SFEVENT_FIRE:
+            FireProjectile();
+            break;
     }
 }
 

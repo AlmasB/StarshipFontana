@@ -1,25 +1,9 @@
 #include <SDL.h>
 #include <memory>
-
-using namespace std;
-
 #include "SFCommon.h"
 #include "SFApp.h"
 
-#define SECOND_MILLIS 1000
-#define FRAME_RATE 60
-
-enum UserEvents { UPDATE_EVENT };
-
-Uint32 PushUpdateEvent(Uint32 interval, void *param) {
-    SDL_Event event;
-    event.type = SDL_USEREVENT;
-    event.user.code = UPDATE_EVENT;
-    event.user.data1 = 0;
-    event.user.data2 = 0;
-    SDL_PushEvent(&event);
-    return interval;
-}
+using namespace std;
 
 shared_ptr<SFWindow> InitGraphics() {
 
@@ -46,11 +30,6 @@ int main(int arc, char ** argv) {
         
         // Initialise world
         shared_ptr<SFApp> game = make_shared<SFApp>(window);
-
-        int delay = SECOND_MILLIS / FRAME_RATE;
-        
-        // Set up the timer to call "PushUpdateEvent" every delay milliseconds
-        SDL_AddTimer(delay, PushUpdateEvent, NULL);
 
         game->StartMainLoop();
         
