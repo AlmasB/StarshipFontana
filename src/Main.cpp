@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <memory>
+
 #include "SFCommon.h"
 #include "SFApp.h"
 
@@ -28,14 +29,13 @@ int main(int arc, char ** argv) {
         // Initialise graphics context
         shared_ptr<SFWindow> window = InitGraphics();
         
-        // Initialise world
-        shared_ptr<SFApp> game = make_shared<SFApp>(window);
+        // Create game
+        SFApp game(window);
 
-        game->StartMainLoop();
+        game.StartMainLoop();
         
     } catch (SFException& e) {
-        cout << "Exception occurred!" << endl;
-        cout << e.what() << endl;
+        cout << "Exception occurred:" << e.what() << endl;
         cout << "Exception details: " << SDL_GetError() << endl;
     }
 

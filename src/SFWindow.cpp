@@ -47,10 +47,10 @@ int SFWindow::GetHeight() {
     return h;
 }
 
-SDL_Window* SFWindow::getWindow() {
+SDL_Window* SFWindow::GetWindow() {
     return window;
 }
 
-SDL_Renderer* SFWindow::getRenderer() {
+SDL_Renderer* SFWindow::GetRenderer() {
     return renderer;
 }

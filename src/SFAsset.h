@@ -25,29 +25,30 @@ enum SFASSETTYPE { SFASSET_DEAD, SFASSET_PLAYER, SFASSET_PROJECTILE, SFASSET_ALI
 
 class SFAsset {
 public:
-    SFAsset(const SFASSETTYPE, const std::shared_ptr<SFWindow>);
-    SFAsset(const SFAsset&);
-    virtual ~SFAsset();
+    SFAsset(const SFASSETTYPE, SDL_Renderer*);
+    ~SFAsset();
 
-    virtual void      SetPosition(Point2 &);
-    virtual Point2    GetPosition();
-    virtual Point2    GetCenter();
-    virtual void      OnRender();
-    virtual void      GoEast();
-    virtual void      GoWest();
-    virtual void      GoNorth();
-    virtual void      SetNotAlive();
-    virtual bool      IsAlive();
-    virtual void      HandleCollision();
+    void      SetPosition(Point2 &);
+    Point2    GetPosition();
+    Point2    GetCenter();
+    void      OnRender();
+    void      GoEast();
+    void      GoWest();
+    void      GoNorth();
+    void      SetNotAlive();
+    bool      IsAlive();
+    void      HandleCollision();
 
-    virtual bool                      CollidesWith(shared_ptr<SFAsset>);
-    virtual shared_ptr<SFBoundingBox> GetBoundingBox();
+    bool                      CollidesWith(shared_ptr<SFAsset>);
+    shared_ptr<SFBoundingBox> GetBoundingBox();
     
 private:
-    SDL_Texture               * sprite;
-    shared_ptr<SFBoundingBox>   bbox;
-    SFASSETTYPE                 type;
-    std::shared_ptr<SFWindow>   sf_window;
+
+    SFASSETTYPE type;
+    shared_ptr<SFBoundingBox> bbox;
+
+    SDL_Texture * sprite;
+    SDL_Renderer * renderer;
 };
 
 #endif

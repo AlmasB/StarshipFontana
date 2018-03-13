@@ -1,14 +1,14 @@
 #ifndef SFAPP_H
 #define SFAPP_H
 
-#include <memory>   // Pull in std::shared_ptr
-#include <list>     // Pull in list
-
-using namespace std;
+#include <memory>
+#include <list>
 
 #include "SFCommon.h"
 #include "SFEvent.h"
 #include "SFAsset.h"
+
+using namespace std;
 
 /**
  * Represents the StarshipFontana application.  It has responsibilities for:
@@ -18,8 +18,7 @@ using namespace std;
  */
 class SFApp {
 public:
-    SFApp(std::shared_ptr<SFWindow>);
-    ~SFApp();
+    SFApp(shared_ptr<SFWindow>);
     
     void StartMainLoop();
 

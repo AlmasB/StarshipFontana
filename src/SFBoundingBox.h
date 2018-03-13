@@ -10,8 +10,7 @@ using namespace std;
 
 class SFBoundingBox {
 public:
-    SFBoundingBox(const Point2, const int, const int);
-    virtual ~SFBoundingBox();
+    SFBoundingBox(const Point2, const int&, const int&);
     void SetPosition(Point2 &);
     void Translate(Vector2 &);
     int GetX();

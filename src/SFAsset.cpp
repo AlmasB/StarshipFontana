@@ -1,19 +1,19 @@
 #include "SFAsset.h"
 
-SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window) : type(type), sf_window(window) {
+SFAsset::SFAsset(const SFASSETTYPE type, SDL_Renderer * renderer) : type(type), renderer(renderer) {
 
     switch (type) {
     case SFASSET_PLAYER:
-        sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/player.png");
+        sprite = IMG_LoadTexture(renderer, "assets/player.png");
         break;
     case SFASSET_PROJECTILE:
-        sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/projectile.png");
+        sprite = IMG_LoadTexture(renderer, "assets/projectile.png");
         break;
     case SFASSET_ALIEN:
-        sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/alien.png");
+        sprite = IMG_LoadTexture(renderer, "assets/alien.png");
         break;
     case SFASSET_COIN:
-        sprite = IMG_LoadTexture(sf_window->getRenderer(), "assets/coin.png");
+        sprite = IMG_LoadTexture(renderer, "assets/coin.png");
         break;
     }
 
@@ -27,13 +27,6 @@ SFAsset::SFAsset(SFASSETTYPE type, std::shared_ptr<SFWindow> window) : type(type
 
     // Initialise bounding box
     bbox = make_shared<SFBoundingBox>(Point2(0.0f, 0.0f), w, h);
-}
-
-SFAsset::SFAsset(const SFAsset& a) {
-    sprite = a.sprite;
-    sf_window = a.sf_window;
-    bbox = a.bbox;
-    type = a.type;
 }
 
 SFAsset::~SFAsset() {
@@ -62,7 +55,7 @@ void SFAsset::OnRender() {
     SDL_Rect rect = bbox->GetBox();
 
     // 2. Blit the sprite onto the level
-    SDL_RenderCopy(sf_window->getRenderer(), sprite, NULL, &rect);
+    SDL_RenderCopy(renderer, sprite, NULL, &rect);
 }
 
 void SFAsset::GoWest() {
