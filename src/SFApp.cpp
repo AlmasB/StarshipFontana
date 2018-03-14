@@ -44,7 +44,9 @@ void SFApp::OnInput() {
 
     while (SDL_PollEvent(&event)) {
         // wrap an SDL_Event with our SFEvent and handle it
-        HandleEvent(SFEvent(event));
+        SFEvent wrappedEvent(event);
+
+        HandleEvent(wrappedEvent);
     }
 }
 
