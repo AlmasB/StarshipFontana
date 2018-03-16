@@ -8,12 +8,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
-using namespace std;
-
 #include "SFCommon.h"
 #include "SFEvent.h"
 #include "SFWindow.h"
-#include "SFBoundingBox.h"
+
+using namespace std;
 
 /**
  * We could create SFPlayer, SFProjectile and SFAsset which are subclasses
@@ -28,6 +27,9 @@ public:
     SFAsset(const SFASSETTYPE, SDL_Renderer*);
     ~SFAsset();
 
+    int GetWidth();
+    int GetHeight();
+
     void      SetPosition(Point2 &);
     Point2    GetPosition();
     Point2    GetCenter();
@@ -39,16 +41,17 @@ public:
     bool      IsAlive();
     void      HandleCollision();
 
-    bool                      CollidesWith(shared_ptr<SFAsset>);
-    shared_ptr<SFBoundingBox> GetBoundingBox();
+    bool CollidesWith(shared_ptr<SFAsset>);
     
 private:
 
     SFASSETTYPE type;
-    shared_ptr<SFBoundingBox> bbox;
+    SDL_Rect bbox;
 
     SDL_Texture * sprite;
     SDL_Renderer * renderer;
+
+    void Translate(Vector2&);
 };
 
 #endif

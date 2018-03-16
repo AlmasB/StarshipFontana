@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <string>
+#include "SFMath.h"
 
 class SFException : public std::exception {
     
