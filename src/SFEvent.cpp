@@ -6,30 +6,30 @@
 SFEvent::SFEvent(const SDL_Event & event) {
     switch (event.type) {
     case SDL_QUIT:
-        code = SFEVENT_QUIT;
+        code = SFEventType::QUIT;
         break;
     case SDL_KEYDOWN:
         switch (event.key.keysym.sym) {
         case SDLK_LEFT:
-            code = SFEVENT_PLAYER_LEFT;
+            code = SFEventType::PLAYER_LEFT;
             break;
         case SDLK_RIGHT:
-            code = SFEVENT_PLAYER_RIGHT;
+            code = SFEventType::PLAYER_RIGHT;
             break;
         case SDLK_SPACE:
-            code = SFEVENT_FIRE;
+            code = SFEventType::FIRE;
             break;
         case SDLK_q:
-            code = SFEVENT_QUIT;
+            code = SFEventType::QUIT;
             break;
         }
         break;
     default:
-        code = SFEVENT_NULL;
+        code = SFEventType::NONE;
         break;
     }
 }
 
-SFEVENT SFEvent::GetCode() {
+SFEventType SFEvent::GetCode() {
     return code;
 }

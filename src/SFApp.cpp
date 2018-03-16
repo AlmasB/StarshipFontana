@@ -55,16 +55,16 @@ void SFApp::OnInput() {
  */
 void SFApp::HandleEvent(SFEvent& event) {
     switch (event.GetCode()) {
-        case SFEVENT_QUIT:
+        case SFEventType::QUIT:
             is_running = false;
             break;
-        case SFEVENT_PLAYER_LEFT:
+        case SFEventType::PLAYER_LEFT:
             player->GoWest();
             break;
-        case SFEVENT_PLAYER_RIGHT:
+        case SFEventType::PLAYER_RIGHT:
             player->GoEast();
             break;
-        case SFEVENT_FIRE:
+        case SFEventType::FIRE:
             FireProjectile();
             break;
     }
