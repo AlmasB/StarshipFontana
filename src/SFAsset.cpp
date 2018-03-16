@@ -1,24 +1,13 @@
 #include "SFAsset.h"
 
-SFAsset::SFAsset(const SFASSETTYPE type, SDL_Renderer * renderer) : type(type), renderer(renderer) {
+SFAsset::SFAsset(const SFAssetType type, SDL_Renderer * renderer) : is_alive(true), type(type), renderer(renderer) {
 
-    switch (type) {
-    case SFASSET_PLAYER:
-        sprite = IMG_LoadTexture(renderer, "assets/player.png");
-        break;
-    case SFASSET_PROJECTILE:
-        sprite = IMG_LoadTexture(renderer, "assets/projectile.png");
-        break;
-    case SFASSET_ALIEN:
-        sprite = IMG_LoadTexture(renderer, "assets/alien.png");
-        break;
-    case SFASSET_COIN:
-        sprite = IMG_LoadTexture(renderer, "assets/coin.png");
-        break;
-    }
+    string image_name = GetImageName(type);
+
+    sprite = IMG_LoadTexture(renderer, image_name.c_str());
 
     if (!sprite) {
-        throw SFException("Couldn't load asset");
+        throw SFException("Couldn't load asset: " + image_name);
     }
 
     // Get texture width & height
@@ -27,6 +16,22 @@ SFAsset::SFAsset(const SFASSETTYPE type, SDL_Renderer * renderer) : type(type), 
 
     // Initialise bounding box
     bbox = { 0, 0, w, h };
+}
+
+string SFAsset::GetImageName(const SFAssetType& type) {
+    switch (type) {
+        case SFAssetType::PLAYER:
+            return "assets/player.png";
+
+        case SFAssetType::PROJECTILE:
+            return "assets/projectile.png";
+
+        case SFAssetType::ALIEN:
+            return "assets/alien.png";
+
+        case SFAssetType::COIN:
+            return "assets/coin.png";
+    }
 }
 
 SFAsset::~SFAsset() {
@@ -78,15 +83,15 @@ void SFAsset::GoNorth() {
 }
 
 void SFAsset::SetNotAlive() {
-    type = SFASSET_DEAD;
+    is_alive = false;
 }
 
 bool SFAsset::IsAlive() {
-    return (SFASSET_DEAD != type);
+    return is_alive;
 }
 
 void SFAsset::HandleCollision() {
-    if (SFASSET_PROJECTILE == type || SFASSET_ALIEN == type) {
+    if (SFAssetType::PROJECTILE == type || SFAssetType::ALIEN == type) {
         SetNotAlive();
     }
 }

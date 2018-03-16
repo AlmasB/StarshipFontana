@@ -14,17 +14,11 @@
 
 using namespace std;
 
-/**
- * We could create SFPlayer, SFProjectile and SFAsset which are subclasses
- * of SFAsset.  However, I've made an implementation decision to use this
- * enum to mark the type of the SFAsset.  If we add more asset types then
- * the subclassing strategy becomes a better option.
- */
-enum SFASSETTYPE { SFASSET_DEAD, SFASSET_PLAYER, SFASSET_PROJECTILE, SFASSET_ALIEN, SFASSET_COIN };
+enum class SFAssetType { PLAYER, PROJECTILE, ALIEN, COIN };
 
 class SFAsset {
 public:
-    SFAsset(const SFASSETTYPE, SDL_Renderer*);
+    SFAsset(const SFAssetType, SDL_Renderer*);
     ~SFAsset();
 
     int GetWidth();
@@ -45,12 +39,14 @@ public:
     
 private:
 
-    SFASSETTYPE type;
+    bool is_alive;
+    SFAssetType type;
     SDL_Rect bbox;
 
     SDL_Texture * sprite;
     SDL_Renderer * renderer;
 
+    string GetImageName(const SFAssetType&);
     void Translate(Vector2&);
 };
 
