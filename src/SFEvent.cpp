@@ -3,33 +3,35 @@
 /**
  * Effectively wraps an SDL_Event in our custom event type.
  */
-SFEvent::SFEvent(const SDL_Event & event) {
+SFEvent::SFEvent(const SDL_Event& event) {
+    type = MapType(event);
+}
+
+SFEventType SFEvent::MapType(const SDL_Event& event) {
     switch (event.type) {
-    case SDL_QUIT:
-        code = SFEventType::QUIT;
-        break;
-    case SDL_KEYDOWN:
-        switch (event.key.keysym.sym) {
-        case SDLK_LEFT:
-            code = SFEventType::PLAYER_LEFT;
-            break;
-        case SDLK_RIGHT:
-            code = SFEventType::PLAYER_RIGHT;
-            break;
-        case SDLK_SPACE:
-            code = SFEventType::FIRE;
-            break;
-        case SDLK_q:
-            code = SFEventType::QUIT;
-            break;
-        }
-        break;
-    default:
-        code = SFEventType::NONE;
-        break;
+        case SDL_QUIT:
+            return SFEventType::QUIT;
+
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+                case SDLK_LEFT:
+                    return SFEventType::PLAYER_LEFT;
+                    
+                case SDLK_RIGHT:
+                    return SFEventType::PLAYER_RIGHT;
+                    
+                case SDLK_SPACE:
+                    return SFEventType::FIRE;
+                    
+                case SDLK_q:
+                    return SFEventType::QUIT;       
+            }
+
+        default:
+            return SFEventType::NONE;
     }
 }
 
-SFEventType SFEvent::GetCode() {
-    return code;
+SFEventType SFEvent::GetType() {
+    return type;
 }

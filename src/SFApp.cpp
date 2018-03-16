@@ -54,7 +54,7 @@ void SFApp::OnInput() {
  * Handle all events (mainly keyboard).
  */
 void SFApp::HandleEvent(SFEvent& event) {
-    switch (event.GetCode()) {
+    switch (event.GetType()) {
         case SFEventType::QUIT:
             is_running = false;
             break;

@@ -10,10 +10,12 @@ enum class SFEventType { NONE, QUIT, PLAYER_LEFT, PLAYER_RIGHT, FIRE };
  */
 class SFEvent {
 public:
-    SFEvent(const SDL_Event &);
-    SFEventType GetCode();
+    SFEvent(const SDL_Event&);
+    SFEventType GetType();
 private:
-    SFEventType code;
+    SFEventType type;
+
+    SFEventType MapType(const SDL_Event&);
 };
 
 #endif
